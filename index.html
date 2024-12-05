@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>NovelGS: Consistent Novel-view Denoising via Large Gaussian Reconstruction Model</title>
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:image" content="images/teaser.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1296">
+    <meta property="og:image:height" content="840">
+    <meta property="og:type" content="website" />
+    <!-- <meta property="og:url" content="" /> -->
+    <meta property="og:title" content="NovelGS: Consistent Novel-view Denoising via Large Gaussian Reconstruction Model" />
+    <meta property="og:description"
+        content="" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="NovelGS: Consistent Novel-view Denoising via Large Gaussian Reconstruction Model" />
+    <meta name="twitter:description"
+        content="" />
+    <meta name="twitter:image" content="images/teaser.png" />
+
+
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏃🏼</text></svg>">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+
+    <script src="js/app.js"></script>
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+
+    <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+    <style>
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+
+        }
+
+        /* .container {
+            margin-left: -100px;
+        } */
+        .image-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .image-wrapper {
+            margin: 0 10px;
+            text-align: center;
+        }
+
+        .caption-row {
+            align-items: flex-end;
+        }
+
+        .caption-row .image-wrapper {
+            margin-bottom: 20px;
+        }
+
+        .caption-row .image-wrapper p {
+            margin-top: 10px;
+        }
+    </style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>并排播放视频</title>
+        <style>
+            .video-container {
+                display: flex;
+            }
+            .video {
+                width: 50%;
+                margin-right: 10px;
+            }
+        </style>
+    </head>
+
+</head>
+
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                <b>NovelGS: </b> Consistent Novel-view Denoising via Large <br> Gaussian Reconstruction Model </br>
+                <!-- <small>
+                    <br>
+                    Anonymous Submission
+                </small> -->
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a href="https://moonsliu.github.io/">
+                            Jinpeng Liu<sup>1</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=SO-JS9EAAAAJ&hl">
+                            Jiale Xu*<sup>2</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=gP-UxcoAAAAJ">
+                            Weihao Cheng<sup>2</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <!-- <br> -->
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=uRCc-McAAAAJ&hl=en">
+                            Yiming Gao<sup>2</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com.hk/citations?user=FQgZpQoAAAAJ&hl=en">
+                            Xintao Wang<sup>2</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <li>
+                        <a href="https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=en">
+                            Ying Shan<sup>2</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                    <li>
+                        <a href="https://andytang15.github.io/">
+                            Yansong Tang<sup>&dagger;1</sup>
+                        </a>
+                        <!-- </br>Tsinghua University -->
+                    </li>
+                </ul>
+                <sup>1</sup>Shenzhen International Graudate School, Tsinghua University &nbsp;&nbsp;&nbsp;&nbsp; <sup>2</sup>Tencent ARC Lab
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <li>
+                        <a href="https://www.arxiv.org/pdf/2411.16779">
+                            <image src="images/paper_front_page.png" height="50px">
+                                <h4><strong>Paper(arXiv)</strong></h4>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <image src="images/github.png" height="50px">
+                                <h4><strong>Code ( coming soon )</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <image src="images/teaser.png" width="100%"></image>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    High-fidelity 3D assets produced by NovelGS. It's designed for sparse-view reconstruction and operates in conjunction with
+various complementary tools, including text-to-image generation, and image-to-multiview modeling. This collaborative framework facilitates the generation of text-to-3D (bottom) and image-to-3D (center), as well as the reconstruction of real-world objects (top).
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    We introduce NovelGS, a diffusion model for Gaussian
+                    Splatting (GS) given sparse-view images. Recent works
+                    leverage feed-forward networks to generate pixel-aligned
+                    Gaussians, which could be fast rendered. Unfortunately,
+                    the method was unable to produce satisfactory results for
+                    areas not covered by the input images due to the formulation of these methods. In contrast, we leverage the
+                    novel view denoising through a transformer-based network
+                    to generate 3D Gaussians. Specifically, by incorporating
+                    both conditional views and noisy target views, the network
+                    predicts pixel-aligned Gaussians for each view. During
+                    training, the rendered target and some additional views of
+                    the Gaussians are supervised. During inference, the target views are iteratively rendered and denoised from pure
+                    noise. Our approach demonstrates state-of-the-art performance in addressing the multi-view image reconstruction
+                    challenge. Due to generative modeling of unseen regions,
+                    NovelGS effectively reconstructs 3D objects with consistent
+                    and sharp textures. Experimental results on publicly available datasets indicate that NovelGS substantially surpasses
+                    existing image-to-3D frameworks, both qualitatively and
+                    quantitatively. We also demonstrate the potential of NovelGS in generative tasks, such as text-to-3D and image-to3D, by integrating it with existing multiview diffusion models. We will make the code publicly accessible.
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Method
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;">
+                        <img src="images/pipeline.png" style="width:100%;" class="img-responsive center-block" alt="overview">
+                        <p class="text-justify">
+                            <b>Pipeline of NovelGS model.</b> We utilize a large transformer-based network to denoise noisy view images for 3D reconstruction.
+    During inference, we initialize target views with pure noise. Then we concatenate the camera ray embedding (Plucker rays) and images ¨
+    (two clean views and one noisy view in the figure to reduce clutterness; four clean views and one noisy view in main experiments) as the
+    input. Then we utilize the denoiser to predict the Gaussians and render the image from the noisy view. After that, we add noise to the noisy
+    view images to timestep T-1. We loop this process until we get the final 3D Gaussians. During training, we add noise to the noisy view
+    images based on the timestep and utilize the denoiser to predict 3D Gaussians. We train the denoiser module by rendering loss.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Gallery
+                </h3>
+                <body>
+                    <div class="video-container">
+                        <div class="video">
+                            <video controls width="100%">
+                                <source src="videos/1.mp4" type="video/mp4">
+                            </video>
+                            <p>
+                                The guy is imitating a singing star. 
+                            </p>
+                        </div>
+                
+                        <div class="video">
+                            <video controls width="100%">
+                                <source src="videos/2.mp4" type="video/mp4">
+                            </video>
+                            <p>
+                                Jump on one foot.
+                            </p>
+                        </div>
+                    </div>
+                </body>
+                <body>
+                    <div class="video-container">
+                        <div class="video">
+                            <video controls width="100%">
+                                <source src="videos/3.mp4" type="video/mp4">
+                            </video>
+                            <p>
+                                Experiencing a profound sense of joy. 
+                            </p>
+                        </div>
+                
+                        <div class="video">
+                            <video controls width="100%">
+                                <source src="videos/4.mp4" type="video/mp4">
+                            </video>
+                            <p>
+                                Bury one's head and cry, and finally crouched down.
+                            </p>
+                        </div>
+                    </div>
+                </body>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Comparisons
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;">
+                        <img src="images/t2m.png" style="width:100%;" class="img-responsive center-block" alt="overview">
+                        </video>
+                    </div>
+                </div>
+                <p>
+                    Comparison of our method with previous text-to-motion generation methods.
+                </p>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Posture-Diffuser
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;">
+                        <img src="images/t2p.png" style="width:100%;" class="img-responsive center-block" alt="overview">
+                        </video>
+                    </div>
+                </div>
+                <p>
+                    Comparison of our method with previous text-to-pose generation methods.
+                </p>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Go-Diffuser
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;">
+                        <img src="images/p2m.png" style="width:100%;" class="img-responsive center-block" alt="overview">
+                    </div>
+                </div>
+                <p>
+                    Comparison of our method with other pose-to-motion generation methods. Yellow color represents details that need attention, and red color represents inaccuracies.
+                </p>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    New Advantages - Precise Pose Control
+                </h3>
+                <div class="text-center">
+                    <div style="position:relative;">
+                        <img src="images/t2p-supp.png" style="width:100%;" class="img-responsive center-block" alt="overview">
+                    </div>
+                </div>
+                <p>
+                    Examples of Precise Pose Control. In the first example #1, we control the position of hands, with the original and modified hand descriptions represented in <b style="color: brown">brown</b> and <b style="color: red">brown</b> respectively. In the second example #2, "<b style="color: red"><del>The</del></b>" represents deleting the description. To determine whether the description of a body part is the reason for the proper positioning of that body part, we removed the corresponding descriptions to see if the body joints would change as a result of this operation. We test the model's understanding of the left and right sides of the body.
+                </p>
+            </div>
+        </div> -->
+
+        <!-- <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Citation
+                </h3>
+                <div class="form-group col-md-10">
+                    <textarea id="bibtex" class="form-control" readonly>
+                    </textarea>
+                </div>
+            </div>
+        </div> -->
+
+<!-- 
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                    The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a> and <a href="https://jonbarron.info/mipnerf360/">Jon Barron</a>.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <small>
+                    Last updated: 12/23/2023.
+                </small>
+            </div>
+        </div>
+
+    </div> -->
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script type="text/javascript" src="slick/slick.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.slick').slick({
+                // setting-name: setting-value
+                "autoplay": true,
+                dots: true,
+                infinite: true,
+                speed: 10000,
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                // centerMode: true,
+                // centerPadding: '60px',
+                // responsive: [
+
+                // ]
+            });
+        });
+    </script>
+
+    <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+    </script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+</body>
+</html>
