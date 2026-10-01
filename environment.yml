@@ -1,0 +1,20 @@
+name: novelgs
+channels:
+  - nvidia/label/cuda-12.8.0
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip=24.2
+  - setuptools=80.9.0
+  - cuda-nvcc=12.8
+  - cuda-cudart-dev=12.8
+  - cuda-toolkit=12.8
+  - gcc_linux-64=11
+  - gxx_linux-64=11
+  - ffmpeg
+  - git
+  - pip:
+      - --extra-index-url https://download.pytorch.org/whl/cu128
+      - torch==2.7.1
+      - torchvision==0.22.1
+      - -r requirements.txt

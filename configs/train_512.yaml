@@ -1,0 +1,121 @@
+model:
+  base_learning_rate: 4.0e-5
+  adjust_epoch: 100000
+  target: src.models.model.DMV3D
+  params:
+    image_size: 512
+    n_clean_views: 4
+    n_noisy_views: 1
+    load_grm: false
+    lpips_ratio: 1
+    drop_cond_prob: 0.05
+    rescale_noise_cfg: false
+    freeze_model: false
+    unconditional_guidance_scale: 1.0
+    clean_view_only: false
+    downsample_lpips: false
+
+    gs_decoder_config:
+      target: src.models.vit_gs.ViTGSEncoder
+      params:
+        in_channels: 3
+        width: 768
+        patch_size: 8
+        input_res: 512
+        depth_std: 0.015
+        layers: 24
+        window_size: 4096
+        checkpointing: true
+        decoder_ratio: 3
+        half_res_input: false
+        scale_offset: -2.3
+        scale_max: -1.2
+        up_sample_t: true
+        less_points: false
+        pixel_shuffle: false
+
+    gs_renderer_config:
+      target: src.render.gaussian_renderer.GaussianRenderer
+      params:
+        renderer_config:
+          img_height: 512
+          img_width: 512
+          patch_size: 512
+          scale_multi_act: 0.1
+          scale_max_act: 0.02
+          scale_min_act: 0.005
+          scaling_activation_type: sigmoid
+          sh_degree: 0
+          render_type: defered
+
+    scheduler_config:
+      num_train_timesteps: 1000
+      beta_start: 0.0001
+      beta_end: 0.02
+      beta_schedule: squaredcos_cap_v2
+      clip_sample: true
+      set_alpha_to_one: true
+      steps_offset: 0
+      prediction_type: sample
+      thresholding: false
+      dynamic_thresholding_ratio: 0.995
+      clip_sample_range: 1.0
+      sample_max_value: 1.0
+      # timestep_spacing: trailing
+      rescale_betas_zero_snr: false
+
+
+data:
+  target: src.data.lvis_dmv3d_new.DataModuleFromConfig
+  params:
+    batch_size: 1
+    num_workers: 8
+    train:
+      target: src.data.lvis_dmv3d_new.ObjaverseData
+      params:
+        training: true
+        root_dir: data/objaverse
+        file_name: splits/train.json
+        total_view_n: 32
+        sel_view_n: 8
+        validation: false
+        image_size: 512
+        supervision_reso: 512
+        overfit: false
+        validation_num: 16
+        random_rotate: false
+        random_scaling: false
+        normalize_camera: true
+
+    validation:
+      target: src.data.lvis_dmv3d_new.ObjaverseData
+      params:
+        training: false
+        root_dir: data/objaverse
+        file_name: splits/train.json
+        total_view_n: 32
+        sel_view_n: 8
+        validation: true
+        image_size: 512
+        supervision_reso: 512
+        overfit: false
+        validation_num: 16
+        random_rotate: false
+        random_scaling: false
+        normalize_camera: true
+
+
+lightning:
+  precision: 32-true
+  modelcheckpoint:
+    params:
+      every_n_train_steps: 100
+  callbacks: {}
+
+  trainer:
+    benchmark: true
+    val_check_interval: 500
+    num_sanity_val_steps: 0
+    accumulate_grad_batches: 16
+    check_val_every_n_epoch: null   # if not set this, validation does not run
+    max_epochs: 10000
