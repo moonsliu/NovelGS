@@ -1,0 +1,26 @@
+# Install torch==2.7.1 and torchvision==0.22.1 from the CUDA 12.8 index first.
+numpy==1.26.4
+pillow==10.4.0
+pytorch-lightning==2.2.5
+torchmetrics[image]==1.4.1
+omegaconf==2.3.0
+einops==0.8.0
+xformers==0.0.31.post1
+diffusers==0.30.3
+transformers==4.44.2
+accelerate==0.34.2
+safetensors==0.4.5
+huggingface-hub==0.24.7
+tqdm==4.66.5
+scipy==1.14.1
+scikit-image==0.24.0
+opencv-python-headless==4.10.0.84
+imageio[ffmpeg]==2.35.1
+plyfile==1.1
+lpips==0.1.4
+tensorboard==2.17.1
+packaging==24.1
+pytz==2024.2
+ninja==1.11.1.1
+joblib==1.4.2
+open3d==0.19.0

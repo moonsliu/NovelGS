@@ -1,0 +1,43 @@
+cff-version: 1.2.0
+title: NovelGS
+type: software
+message: "If you use NovelGS, please cite the paper."
+authors:
+  - family-names: Liu
+    given-names: Jinpeng
+  - family-names: Xu
+    given-names: Jiale
+  - family-names: Cheng
+    given-names: Weihao
+  - family-names: Gao
+    given-names: Yiming
+  - family-names: Wang
+    given-names: Xintao
+  - family-names: Shan
+    given-names: Ying
+  - family-names: Tang
+    given-names: Yansong
+repository-code: https://github.com/moonsliu/NovelGS
+url: https://arxiv.org/abs/2411.16779
+license: Apache-2.0
+version: 0.1.0
+preferred-citation:
+  type: article
+  title: "NovelGS: Consistent Novel-view Denoising via Large Gaussian Reconstruction Model"
+  authors:
+    - family-names: Liu
+      given-names: Jinpeng
+    - family-names: Xu
+      given-names: Jiale
+    - family-names: Cheng
+      given-names: Weihao
+    - family-names: Gao
+      given-names: Yiming
+    - family-names: Wang
+      given-names: Xintao
+    - family-names: Shan
+      given-names: Ying
+    - family-names: Tang
+      given-names: Yansong
+  year: 2024
+  url: https://arxiv.org/abs/2411.16779

@@ -1,0 +1,8 @@
+{
+  "pairs": [
+    {
+      "prediction": "outputs/example/target_026/denoised.png",
+      "target": "data/example/026.png"
+    }
+  ]
+}
